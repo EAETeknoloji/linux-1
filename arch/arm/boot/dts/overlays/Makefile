@@ -69,6 +69,7 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
 	midi-uart1.dtbo \
 	mmc.dtbo \
 	mpu6050.dtbo \
+	mxt1664.dtbo \
 	mz61581.dtbo \
 	papirus.dtbo \
 	pi3-act-led.dtbo \
