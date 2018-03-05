@@ -6,10 +6,6 @@
 	model = "Raspberry Pi Compute Module 3";
 };
 
-&uart0 {
-	status = "okay";
-};
-
 &gpio {
 	sdhost_pins: sdhost_pins {
 		brcm,pins = <48 49 50 51 52 53>;
@@ -27,14 +23,14 @@
 		brcm,function = <1>; /* output */
 	};
 
-	i2c0_pins: i2c0 {
-		brcm,pins = <0 1>;
-		brcm,function = <4>;
+	i2c0_pins: i2c0 {	/* kullanılmıyor */
+		brcm,pins;
+		brcm,function;
 	};
 
-	i2c1_pins: i2c1 {
-		brcm,pins = <2 3>;
-		brcm,function = <4>;
+	i2c1_pins: i2c1 {			/* touch icin kullanılacak */
+		brcm,pins = <44 45>;	/* SDA GPIO44, SCL GPIO45 */
+		brcm,function = <6>; /* alt2, sda,scl */
 	};
 
 	i2s_pins: i2s {
@@ -42,7 +38,19 @@
 		brcm,function = <4>; /* alt0 */
 	};
 
-	audio_pins: audio_pins {
+	uart1_pins: uart1_pins { /* RS232/485 */	
+		brcm,pins = <32 33>;
+		brcm,function = <2>; /* alt5=UART1 */
+		brcm,pull = <0 0>;
+	};
+
+	uart0_pins: uart0_pins { /* knx uart */
+		brcm,pins = <36 37>;
+		brcm,function = <6>; /* alt2=UART0 */
+		brcm,pull = <0 0>;
+	};
+
+	audio_pins: audio_pins { /* kullanılmıyor */
 		brcm,pins;
 		brcm,function;
 	};
@@ -110,7 +118,7 @@
 &i2c1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c1_pins>;
-	clock-frequency = <100000>;
+	clock-frequency = <50000>;	/* 50kHz for mxt1664 Touch Screen */
 };
 
 &i2c2 {
@@ -137,6 +145,18 @@
 &audio {
 	pinctrl-names = "default";
 	pinctrl-0 = <&audio_pins>;
+};
+
+&uart0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_pins>;
+	status = "okay";
+};
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins>;
+	status = "okay";
 };
 
 / {
